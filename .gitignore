@@ -21,13 +21,11 @@
 # Build/dist files
 dist/*
 build/*
-pydicom.egg-info
+pydicom.egg-info/*
 distribute*.egg
 distribute*.tar.gz
 py3source
 .tox/*
-__pycache__
-.eggs/*
 
 # Docs build
 docs/_build/*
@@ -42,24 +40,17 @@ doc/reference/generated/*
 # PyCharm IDE files
 *.idea*
 
+
 # jupyter notebooks
 *.ipynb
 .ipynb_checkpoints/*
 tests/test_pixel.py
 
 # mypy
-.mypy_cache
+pydicom/.mypy_cache/*
 
 # vscode
 .vscode/*
 
 # virtualenv
 env/
-venv/
-.venv/
-
-# pytest
-.pytest_cache
-
-# airspeed velocity
-asv/*

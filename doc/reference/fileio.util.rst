@@ -14,4 +14,5 @@ Utilities for dataset I/O.
    find_bytes
    find_delimiter
    length_of_undefined_length
+   read_delimiter_item
    read_undefined_length_value

@@ -3,8 +3,8 @@
 # This script is meant to be called in the "deploy" step defined
 # in .circleci/config.yml. See https://circleci.com/docs/2.0 for more details.
 
-# We have three possible workflows:
-#   If the git branch is 'main' then we want to commit and merge the dev/
+# We have three possibily workflows:
+#   If the git branch is 'master' then we want to commit and merge the dev/
 #       docs on gh-pages
 #   If the git branch is [0-9].[0.9].X (i.e. 0.9.X, 1.0.X, 1.2.X, 41.21.X) then
 #        we want to commit and merge the major.minor/ docs on gh-pages
@@ -22,19 +22,21 @@ function doc_clone_commit {
     #   /home/circleci/project/pydicom/dataset.py
     #   note the base directory for the repo is 'project' not 'pydicom'
 
-    # Clone the $DOC_BRANCH branch
+    # Test to see if $HOME/pydicom exists, if not then clone it from the repo
+    #   with CircleCI v2.0 it will always be the case that we need to clone
     cd $HOME
-    git clone -b $DOC_BRANCH --single-branch $CIRCLE_REPOSITORY_URL
+    if [ ! -d $CIRCLE_PROJECT_REPONAME ]
+    then
+        git clone -b $DOC_BRANCH --single-branch $CIRCLE_REPOSITORY_URL
+    fi
+
     cd $CIRCLE_PROJECT_REPONAME
     git reset --hard origin/$DOC_BRANCH
-    # Update the doc directory that will be committed
     git rm -rf $DIR/ && rm -rf $DIR/
     cp -R $HOME/project/doc/_build/html $DIR
-    # Set the git details of the committer
     git config --global user.email $EMAIL
     git config --global user.name $USERNAME
     git config --global push.default matching
-    # Add back to git the doc directory that will be committed
     git add -f $DIR/
     git commit -m "$MSG" $DIR
 }
@@ -50,13 +52,10 @@ if [ -z ${USERNAME+x} ]; then echo "USERNAME is unset"; fi
 
 DOC_BRANCH=gh-pages
 
-echo $GIT_AUTHOR_EMAIL
-echo $GIT_AUTHOR_NAME
-
 # Determine which of the three workflows to take
-if [ "$CIRCLE_BRANCH" = "main" ]
+if [ "$CIRCLE_BRANCH" = "master" ]
 then
-    # build of current main
+    # build of current master
     echo "Performing commit and push to $CIRCLE_PROJECT_REPONAME/$DOC_BRANCH for $CIRCLE_BRANCH"
     # Changes are made to dev/ directory
     DIR=dev

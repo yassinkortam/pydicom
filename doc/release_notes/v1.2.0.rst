@@ -1,8 +1,11 @@
 Version 1.2.0
 =================================
 
+Changelog
+---------
+
 Changes
--------
+.......
 
 * PIL removed as a fallback if Pillow is not available in the pillow pixel data
   handler (:issue:`722`)
@@ -26,7 +29,7 @@ Changes
 
 
 Enhancements
-------------
+............
 
 * Updated DICOM dictionary for 2018c edition (:issue:`677`)
 * Added possibility to set byte strings as value for VRs that use only the
@@ -51,7 +54,7 @@ Enhancements
 
 
 Fixes
------
+.....
 
 * Removed unused ``original_string`` attribute from the ``DataElement`` class
   (:pr:`660`)
@@ -60,7 +63,7 @@ Fixes
 * Fixed handling of private tags in repeater range (:issue:`689`)
 * Fixed Pillow pixel data handler for non-JPEG2k transfer syntax (:issue:`663`)
 * Fixed handling of elements with ambiguous VR (:pr:`700, 728`)
-* Adapted pixel handlers where endianness is explicitly adapted (:issue:`704`)
+* Adapted pixel handlers where endianess is explicitly adapted (:issue:`704`)
 * Improve performance of bit unpacking (:pr:`715`)
 * First character set no longer removed (:issue:`707`)
 * Fixed RLE decoded data having the wrong byte order (:pr:`729`)

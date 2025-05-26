@@ -15,17 +15,18 @@ import matplotlib.pyplot as plt
 from pydicom import dcmread
 from pydicom.data import get_testdata_file
 
-path = get_testdata_file("CT_small.dcm")
-ds = dcmread(path)
+fpath = get_testdata_file('CT_small.dcm')
+ds = dcmread(fpath)
 
 # Normal mode:
 print()
-print(f"File path........: {path}")
+print(f"File path........: {fpath}")
 print(f"SOP Class........: {ds.SOPClassUID} ({ds.SOPClassUID.name})")
 print()
 
 pat_name = ds.PatientName
-print(f"Patient's Name...: {pat_name.family_comma_given()}")
+display_name = pat_name.family_name + ", " + pat_name.given_name
+print(f"Patient's Name...: {display_name}")
 print(f"Patient ID.......: {ds.PatientID}")
 print(f"Modality.........: {ds.Modality}")
 print(f"Study Date.......: {ds.StudyDate}")
