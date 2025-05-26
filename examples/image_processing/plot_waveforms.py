@@ -11,10 +11,12 @@ matplotlib.
 import numpy as np
 import matplotlib.pyplot as plt
 
-from pydicom import examples
+from pydicom import dcmread
+from pydicom.data import get_testdata_file
 from pydicom.waveforms import generate_multiplex
 
-ds = examples.waveform
+fpath = get_testdata_file("waveform_ecg.dcm")
+ds = dcmread(fpath)
 
 # Plot the first channel of each multiplex
 ch_idx = 0

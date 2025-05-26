@@ -1,4 +1,4 @@
 [run]
 omit =
-    tests/*
-    benchmarks/*
+    pydicom/tests/*
+    pydicom/benchmarks/*

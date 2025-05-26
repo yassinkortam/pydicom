@@ -23,6 +23,7 @@ Configuration Options (:mod:`pydicom.config`)
    debug
    enforce_valid_values
    future_behavior
+   overlay_data_handlers
    pixel_data_handlers
    reset_data_element_callback
    show_file_meta
@@ -37,3 +38,4 @@ Configuration Options (:mod:`pydicom.config`)
    IGNORE
    WARN
    RAISE
+

@@ -30,4 +30,3 @@ Element value decoding.
    convert_UN
    convert_UR_string
    convert_value
-   multi_string

@@ -19,7 +19,8 @@ or TM and utilities.
    DSfloat
    DT
    IS
-   ISfloat
+   MultiString
    PersonName
+   PersonNameUnicode
    TM
    VR

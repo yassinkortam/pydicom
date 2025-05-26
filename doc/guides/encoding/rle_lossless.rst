@@ -12,8 +12,8 @@ Valid Image Pixel Parameters
 ----------------------------
 
 The table below lists the valid :dcm:`Image Pixel<part03/sect_C.7.6.3.html>`
-module parameters for *Pixel Data* encoded using the *RLE Lossless* transfer
-syntax. For an explanation of each parameter and its relationship with the
+module parameters for *Pixel Data* encoded using *RLE Lossless* encoding. For
+an explanation of each parameter and its relationship with the
 *Pixel Data* see the :doc:`glossary of Image Pixel elements<../glossary>`.
 
 +------------+-----------------+-----------------+------------+---------+
@@ -51,16 +51,24 @@ corresponding color space:
 * If your uncompressed pixel data is in RGB color space:
 
   * For *Photometric Interpretation* ``RGB`` nothing else is required.
-  * For *Photometric Interpretation* ``YBR_FULL`` data must be :func:`converted into
-    YCbCr color space <pydicom.pixels.processing.convert_color_space>`, however
-    the conversion operation is lossy.
+  * For *Photometric Interpretation* ``YBR_FULL``
+
+    * For *Bits Allocated* and *Bits Stored* less than or equal to 8: pixel
+      data must be :func:`converted into YCbCr color space
+      <pydicom.pixel_data_handlers.convert_color_space>`. However
+      you should keep in mind that the conversion operation is lossy.
+    * For *Bits Allocated* and *Bits Stored* between 9 and 16 (inclusive):
+      pixel data should be downscaled to 8-bit (with *Bits Stored*, *Bits
+      Allocated* and *High Bit* updated accordingly) and converted to `YCbCr
+      <https://en.wikipedia.org/wiki/YCbCr>`_ color space. Both of these
+      operations are lossy.
 
 * If your uncompressed pixel data is in `YCbCr
   <https://en.wikipedia.org/wiki/YCbCr>`_ color space:
 
   * For *Photometric Interpretation* ``RGB`` the pixel data must first be
     :func:`converted into RGB color space
-    <pydicom.pixels.processing.convert_color_space>`, however the conversion
+    <pydicom.pixel_data_handlers.convert_color_space>`. However the conversion
     operation is lossy.
   * For *Photometric Interpretation* ``YBR_FULL`` nothing else is required.
 
@@ -83,19 +91,19 @@ Available Plugins
 
    <br />
 
-+---------------------------------------------------+-----------------------------------------------------------------------------+
-| Encoder                                           | Plugins                                                                     |
-|                                                   +---------+--------------------------------------+-----+----------------------+
-|                                                   | Name    | Requires                             |Added| Known Limitations    |
-+===================================================+=========+======================================+=====+======================+
-|:attr:`~pydicom.pixels.encoders.RLELosslessEncoder`| pydicom |                                      |v2.2 | ~20x slower to encode|
-|                                                   +---------+--------------------------------------+-----+----------------------+
-|                                                   |pylibjpeg|:ref:`NumPy<tut_install_np>`,         |v2.2 |                      |
-|                                                   |         |:ref:`pylibjpeg<tut_install_pylj>`,   |     |                      |
-|                                                   |         |:ref:`pylibjpeg-rle<tut_install_pylj>`|     |                      |
-|                                                   +---------+--------------------------------------+-----+----------------------+
-|                                                   | gdcm    |:ref:`GDCM<tut_install_gdcm>`         |v2.2 |                      |
-+---------------------------------------------------+---------+--------------------------------------+-----+----------------------+
++--------------------------------------------+-----------------------------------------------------------------------------+
+| Encoder                                    | Plugins                                                                     |
+|                                            +---------+--------------------------------------+-----+----------------------+
+|                                            | Name    | Requires                             |Added| Known Limitations    |
++============================================+=========+======================================+=====+======================+
+|:attr:`~pydicom.encoders.RLELosslessEncoder`| pydicom |                                      |v2.2 | ~20x slower to encode|
+|                                            +---------+--------------------------------------+-----+----------------------+
+|                                            |pylibjpeg|:ref:`NumPy<tut_install_np>`,         |v2.2 |                      |
+|                                            |         |:ref:`pylibjpeg<tut_install_pylj>`,   |     |                      |
+|                                            |         |:ref:`pylibjpeg-rle<tut_install_pylj>`|     |                      |
+|                                            +---------+--------------------------------------+-----+----------------------+
+|                                            | gdcm    |:ref:`GDCM<tut_install_gdcm>`         |v2.2 |                      |
++--------------------------------------------+---------+--------------------------------------+-----+----------------------+
 
 Examples
 --------
@@ -104,9 +112,9 @@ Compressing grayscale pixel data in-place:
 
 .. code-block:: python
 
-    >>> from pydicom import examples
+    >>> from pydicom.data import get_testdata_file
     >>> from pydicom.uid import RLELossless
-    >>> ds = examples.ct
+    >>> ds = get_testdata_file("CT_small.dcm", read=True)
     >>> ds.SamplesPerPixel
     1
     >>> ds.PhotometricInterpretation
@@ -116,15 +124,12 @@ Compressing grayscale pixel data in-place:
     >>> ds.PixelRepresentation
     1
     >>> ds.compress(RLELossless)
-    >>> len(ds.PixelData)
-    21020
 
 Compressing RGB pixel data in-place:
 
 .. code-block:: python
 
-    >>> from pydicom import examples
-    >>> ds = examples.rgb_color
+    >>> ds = get_testdata_file("US1_UNCR.dcm", read=True)
     >>> ds.SamplesPerPixel
     3
     >>> ds.PhotometricInterpretation
@@ -146,10 +151,9 @@ new *SOP Instance UID*:
 
 .. code-block:: python
 
-    >>> from pydicom import examples
-    >>> from pydicom.pixels import convert_color_space
+    >>> from pydicom.pixel_data_handlers import convert_color_space
     >>> from pydicom.uid import generate_uid
-    >>> ds = examples.rgb_color
+    >>> ds = get_testdata_file("US1_UNCR.dcm", read=True)
     >>> rgb = ds.pixel_array
     >>> ybr = convert_color_space(rgb, 'RGB', 'YBR_FULL')
     >>> ds.PhotometricInterpretation = 'YBR_FULL'

@@ -3,9 +3,7 @@
 UID Definitions and Utilities (:mod:`pydicom.uid`)
 ==================================================
 
-.. module:: pydicom.uid
 .. currentmodule:: pydicom.uid
-
 
 Transfer Syntax UIDs
 --------------------
@@ -19,7 +17,7 @@ Transfer Syntax UIDs
    ExplicitVRBigEndian
    JPEGBaseline8Bit
    JPEGExtended12Bit
-   JPEGLossless
+   JPEGLosslessP14
    JPEGLosslessSV1
    JPEGLSLossless
    JPEGLSNearLossless
@@ -28,34 +26,15 @@ Transfer Syntax UIDs
    JPEG2000MCLossless
    JPEG2000MC
    MPEG2MPML
-   MPEG2MPMLF
    MPEG2MPHL
-   MPEG2MPHLF
    MPEG4HP41
-   MPEG4HP41F
    MPEG4HP41BD
-   MPEG4HP41BDF
    MPEG4HP422D
-   MPEG4HP422DF
    MPEG4HP423D
-   MPEG4HP423DF
    MPEG4HP42STEREO
-   MPEG4HP42STEREOF
    HEVCMP51
    HEVCM10P51
-   JPEGXLLossless
-   JPEGXLJPEGRecompression
-   JPEGXL
-   HTJ2KLossless
-   HTJ2KLosslessRPCL
-   HTJ2K
-   JPIPHTJ2KReferenced
-   JPIPHTJ2KReferencedDeflate
    RLELossless
-   SMPTEST211020UncompressedProgressiveActiveVideo
-   SMPTEST211020UncompressedInterlacedActiveVideo
-   SMPTEST211030PCMDigitalAudio
-   DeflatedImageFrameCompression
 
 
 Transfer Syntax Lists
@@ -68,11 +47,9 @@ Transfer Syntax Lists
    JPEGTransferSyntaxes
    JPEGLSTransferSyntaxes
    JPEG2000TransferSyntaxes
-   JPEGXLTransferSyntaxes
    MPEGTransferSyntaxes
    RLETransferSyntaxes
    UncompressedTransferSyntaxes
-   PrivateTransferSyntaxes
 
 
 UID Utilities
@@ -82,7 +59,6 @@ UID Utilities
    :toctree: generated/
 
    generate_uid
-   register_transfer_syntax
    PYDICOM_ROOT_UID
    PYDICOM_IMPLEMENTATION_UID
    RE_VALID_UID
@@ -122,8 +98,6 @@ Storage SOP Class UIDs
    Comprehensive3DSRStorage
    ComprehensiveSRStorage
    ComputedRadiographyImageStorage
-   ConfocalMicroscopyImageStorage
-   ConfocalMicroscopyTiledPyramidalImageStorage
    ContentAssessmentResultsStorage
    CornealTopographyMapStorage
    DICOS2DAITStorage
@@ -151,25 +125,21 @@ Storage SOP Class UIDs
    EncapsulatedPDFStorage
    EncapsulatedSTLStorage
    EnhancedCTImageStorage
-   EnhancedContinuousRTImageStorage
    EnhancedMRColorImageStorage
    EnhancedMRImageStorage
    EnhancedPETImageStorage
-   EnhancedRTImageStorage
    EnhancedSRStorage
    EnhancedUSVolumeStorage
    EnhancedXAImageStorage
    EnhancedXRFImageStorage
    EnhancedXRayRadiationDoseSRStorage
    ExtensibleSRStorage
-   General32bitECGWaveformStorage
    GeneralAudioWaveformStorage
    GeneralECGWaveformStorage
    GenericImplantTemplateStorage
    GrayscalePlanarMPRVolumetricPresentationStateStorage
    GrayscaleSoftcopyPresentationStateStorage
    HangingProtocolStorage
-   HeightMapSegmentationStorage
    HemodynamicWaveformStorage
    ImplantAssemblyTemplateStorage
    ImplantTemplateGroupStorage
@@ -177,10 +147,8 @@ Storage SOP Class UIDs
    IntraocularLensCalculationsStorage
    IntravascularOpticalCoherenceTomographyImageStorageForPresentation
    IntravascularOpticalCoherenceTomographyImageStorageForProcessing
-   InventoryStorage
    KeratometryMeasurementsStorage
    KeyObjectSelectionDocumentStorage
-   LabelMapSegmentationStorage
    LegacyConvertedEnhancedCTImageStorage
    LegacyConvertedEnhancedMRImageStorage
    LegacyConvertedEnhancedPETImageStorage
@@ -209,7 +177,6 @@ Storage SOP Class UIDs
    ParametricMapStorage
    PatientRadiationDoseSRStorage
    PerformedImagingAgentAdministrationSRStorage
-   PhotoacousticImageStorage
    PlannedImagingAgentAdministrationSRStorage
    PositronEmissionTomographyImageStorage
    ProcedureLogStorage
@@ -223,7 +190,6 @@ Storage SOP Class UIDs
    RTImageStorage
    RTIonBeamsTreatmentRecordStorage
    RTIonPlanStorage
-   RTPatientPositionAcquisitionInstructionStorage
    RTPhysicianIntentStorage
    RTPlanStorage
    RTRadiationRecordSetStorage
@@ -254,8 +220,6 @@ Storage SOP Class UIDs
    SurfaceScanMeshStorage
    SurfaceScanPointCloudStorage
    SurfaceSegmentationStorage
-   ThermographyImageStorage
-   ThermographyMultiFrameImageStorage
    TomotherapeuticRadiationRecordStorage
    TomotherapeuticRadiationStorage
    TractographyResultsStorage
@@ -267,13 +231,11 @@ Storage SOP Class UIDs
    VLPhotographicImageStorage
    VLSlideCoordinatesMicroscopicImageStorage
    VLWholeSlideMicroscopyImageStorage
-   VariableModalityLUTSoftcopyPresentationStateStorage
    VideoEndoscopicImageStorage
    VideoMicroscopicImageStorage
    VideoPhotographicImageStorage
    VisualAcuityMeasurementsStorage
    VolumeRenderingVolumetricPresentationStateStorage
-   WaveformAnnotationSRStorage
    WideFieldOphthalmicPhotography3DCoordinatesImageStorage
    WideFieldOphthalmicPhotographyStereographicProjectionImageStorage
    XADefinedProcedureProtocolStorage
