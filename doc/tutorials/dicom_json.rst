@@ -2,6 +2,8 @@
 Introduction to JSON support
 ============================
 
+.. versionadded:: 1.3
+
 Starting in *pydicom* version 1.3, some support for converting DICOM data to
 and from JSON format has been added. This support is considered to be in
 beta state, and the API is still subject to change.
@@ -17,7 +19,9 @@ Converting a dataset into JSON format
 and into a deserialized JSON dictionary:
 
   >>> import pydicom
-  >>> ds = pydicom.examples.ct
+  >>> from pydicom.data import get_testdata_file
+  >>> filename = get_testdata_file("CT_small.dcm")
+  >>> ds = pydicom.dcmread(filename)
   >>> ds.to_json()
   '{"00080005": {"Value": ["ISO_IR 100"], "vr": "CS"}, "00080008": {"Value":...
   >>> ds.to_json_dict()
@@ -45,7 +49,8 @@ dictionary. There is only a single function to handle both cases:
 The conversion in both directions is symmetric:
 
   >>> import pydicom
-  >>> ds = pydicom.examples.ct
+  >>> filename = pydicom.data.get_testdata_file("CT_small.dcm")
+  >>> ds = pydicom.dcmread(filename)
   >>> ds_json = ds.to_json()
   >>> ds1 = pydicom.dataset.Dataset.from_json(ds_json)
   >>> assert ds == ds1
@@ -75,7 +80,8 @@ Note that only data greater than ``bulk_data_threshold`` (by default set to
   >>>     uri = store_data_and_return_uri(data_element)
   >>>     return uri
   >>>
-  >>> ds = pydicom.examples.ct
+  >>> filename = pydicom.data.get_testdata_file("CT_small.dcm")
+  >>> ds = pydicom.dcmread(filename)
   >>> ds_json = ds.to_json(bulk_data_element_handler=bulk_data_handler)
 
 On reading JSON data, the handler must be able to retrieve the data using
@@ -83,17 +89,6 @@ the stored ``BulkDataURI``:
 
   >>> def bulk_data_reader(bulk_data_uri):
   >>>     return data_retrieved_via_uri(bulk_data_uri)
-  >>>
-  >>> json_data = {
-  >>>     "00091002": {"vr": "OB", "BulkDataURI": "https://my.wado.org/123"}
-  >>> }
-  >>> ds = Dataset.from_json(json_data, bulk_data_uri_handler=bulk_data_reader)
-
-or, if you need to also know the tag and the vr, in addition to the stored
-``BulkDataURI``:
-
-  >>> def bulk_data_reader(tag, vr, bulk_data_uri):
-  >>>     return data_retrieved_for_tag_and_vr_via_uri(tag, vr, bulk_data_uri)
   >>>
   >>> json_data = {
   >>>     "00091002": {"vr": "OB", "BulkDataURI": "https://my.wado.org/123"}

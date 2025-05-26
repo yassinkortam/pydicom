@@ -13,7 +13,7 @@ datasets saved as blobs in a database.
 
 from io import BytesIO
 
-from pydicom import dcmread, dcmwrite, Dataset
+from pydicom import dcmread, dcmwrite
 from pydicom.filebase import DicomFileLike
 
 print(__doc__)
@@ -21,41 +21,41 @@ print(__doc__)
 usage = "Usage: python memory_dataset.py dicom_filename"
 
 
-def write_dataset_to_bytes(ds: Dataset) -> bytes:
+def write_dataset_to_bytes(dataset):
     # create a buffer
     with BytesIO() as buffer:
         # create a DicomFileLike object that has some properties of DataSet
         memory_dataset = DicomFileLike(buffer)
         # write the dataset to the DicomFileLike object
-        dcmwrite(memory_dataset, ds)
+        dcmwrite(memory_dataset, dataset)
         # to read from the object, you have to rewind it
         memory_dataset.seek(0)
         # read the contents as bytes
         return memory_dataset.read()
 
 
-def adapt_dataset_from_bytes(blob: bytes) -> Dataset:
+def adapt_dataset_from_bytes(blob):
     # you can just read the dataset from the byte array
     dataset = dcmread(BytesIO(blob))
     # do some interesting stuff
     dataset.is_little_endian = False
-    dataset.PatientName = "Bond^James"
-    dataset.PatientID = "007"
+    dataset.PatientName = 'Bond^James'
+    dataset.PatientID = '007'
     return dataset
 
 
-class DummyDataBase:
-    def __init__(self) -> None:
-        self._blobs: dict[str, bytes] = {}
+class DummyDataBase(object):
+    def __init__(self):
+        self._blobs = {}
 
-    def save(self, name: str, blob: bytes) -> None:
+    def save(self, name, blob):
         self._blobs[name] = blob
 
-    def load(self, name: str) -> bytes | None:
+    def load(self, name):
         return self._blobs.get(name)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
 
     if len(sys.argv) != 2:
@@ -72,14 +72,13 @@ if __name__ == "__main__":
     # - convert the dataset to bytes
     ds_bytes = write_dataset_to_bytes(dataset)
     # - save the bytes in some storage
-    db.save("dataset", ds_bytes)
+    db.save('dataset', ds_bytes)
 
     # Convert a byte array to a dataset:
     # - get the bytes from storage
-    read_bytes = db.load("dataset")
-    if read_bytes:
-        # - convert the bytes into a dataset and do something interesting with it
-        read_dataset = adapt_dataset_from_bytes(read_bytes)
-        print(read_dataset)
-        # - you can write your dataset to a file if wanted
-        dcmwrite(file_path + "_new", read_dataset)
+    read_bytes = db.load('dataset')
+    # - convert the bytes into a dataset and do something interesting with it
+    read_dataset = adapt_dataset_from_bytes(read_bytes)
+    print(read_dataset)
+    # - you can write your dataset to a file if wanted
+    dcmwrite(file_path + '_new', read_dataset)

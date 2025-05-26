@@ -1,4 +1,4 @@
-.. _input_output_examples:
+.. _input_ouput_examples:
 
 Input-output
 ------------

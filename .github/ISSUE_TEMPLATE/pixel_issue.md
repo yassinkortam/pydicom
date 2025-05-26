@@ -7,45 +7,28 @@ assignees: ''
 
 ---
 
-<!--
-If your issue is that the pixel data "looks green/teal", or has strange colors, you probably need to apply a YCbCr to RGB color space conversion using `pydicom.pixel_data_handlers.convert_color_space()`.
-
-See also: https://github.com/pydicom/pydicom/discussions/1577
--->
-
 **Describe the issue**
+A clear and concise description of what the issue is. It is very helpful if you
+can upload screenshots showing the issue.
 
-Please include:
-* A clear description of what the issue is
-* (If relevant) **anonymized** screenshots that demonstrate the issue
-* The output from `python -m pydicom.env_info`
+**Expected behavior**
+What you expected to happen.
 
+**Steps To Reproduce**
+How to reproduce the issue. Please include:
+1. A minimum working code sample
+2. The traceback (if one occurred)
+3. Which of the following packages are available and their versions:
+  * Numpy
+  * Pillow
+  * JPEG-LS
+  * GDCM
+4. The anonymized DICOM dataset (if possible).
 
-**Steps to reproduce**
-
-A way for us to reproduce and troubleshoot the issue:
-* A minimum working code sample
-* The *entire* traceback (if one occurred).
-
-It's also extremely helpful if you can include one of the following:
-* The **anonymized** DICOM dataset, which can be attached to the issue as a zip archive, or
-* The output from:
-
-  For **pydicom >= 2.3**:
-  ```python
-  from pydicom import dcmread
-  from pydicom.util import debug_pixel_data
-
-  ds = dcmread("/path/to/the/dataset")
-  debug_pixel_data(ds)
-  ```
-
-  For **pydicom < 2.3**:
-  ```python
-  from pydicom import dcmread
-
-  ds = dcmread("/path/to/the/dataset")
-  print(ds.file_meta.get("TransferSyntaxUID", "(no transfer syntax)"))
-  print(ds.group_dataset(0x0028))
-  print(ds.group_dataset(0x7FE0))
-  ```
+**Your environment**
+Please run the following and paste the output.
+```bash
+$ python -c "import platform; print(platform.platform())"
+$ python -c "import sys; print('Python ', sys.version)"
+$ python -c "import pydicom; print('pydicom ', pydicom.__version__)"
+```

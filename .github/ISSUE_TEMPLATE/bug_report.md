@@ -19,9 +19,9 @@ How to reproduce the issue. Please include a minimum working code sample, the
 traceback (if any) and the anonymized DICOM dataset (if relevant).
 
 **Your environment**
-Please use the `pydicom.env_info` module (available in **pydicom 2 or later**)
-to gather information about your environment and paste it into the issue:
-
+Please run the following and paste the output.
 ```bash
-$ python -m pydicom.env_info
+$ python -c "import platform; print(platform.platform())"
+$ python -c "import sys; print('Python ', sys.version)"
+$ python -c "import pydicom; print('pydicom ', pydicom.__version__)"
 ```

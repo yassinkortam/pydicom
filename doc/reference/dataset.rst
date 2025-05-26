@@ -12,6 +12,5 @@ Representation of DICOM datasets and related functions.
 
    Dataset
    FileDataset
-   FileMetaDataset
    PrivateBlock
    validate_file_meta
