@@ -8,13 +8,10 @@ Pixel Data Encoding
 .. toctree::
    :maxdepth: 1
 
-   jpeg_ls
-   jpeg_2k
    rle_lossless
-   defl_image
 
 
-Encoding plugin information:
+Encoding plugin information: 
 
 .. toctree::
    :maxdepth: 1

@@ -7,13 +7,9 @@ Configuration Options (:mod:`pydicom.config`)
 
 *pydicom* configuration options
 
-.. autoclass:: Settings
-   :exclude-members: __init__
-
 .. autosummary::
    :toctree: generated/
 
-   settings
    allow_DS_float
    assume_implicit_vr_switch
    convert_wrong_length_to_UN
@@ -23,6 +19,7 @@ Configuration Options (:mod:`pydicom.config`)
    debug
    enforce_valid_values
    future_behavior
+   overlay_data_handlers
    pixel_data_handlers
    reset_data_element_callback
    show_file_meta
@@ -34,6 +31,3 @@ Configuration Options (:mod:`pydicom.config`)
    APPLY_J2K_CORRECTIONS
    INVALID_KEY_BEHAVIOR
    INVALID_KEYWORD_BEHAVIOR
-   IGNORE
-   WARN
-   RAISE

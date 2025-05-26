@@ -1,8 +1,12 @@
 Version 2.1.0
 =================================
 
+Changelog
+---------
+* Dropped support for Python 3.5 (only Python 3.6+ supported)
+
 Enhancements
-------------
+............
 * Large testing data is no longer distributed within the pydicom package
   with the aim to reduce the package download size. These test files
   will download on-the-fly whenever either the tests are run, or should
@@ -14,8 +18,9 @@ Enhancements
   * To download an individual file and get its path on disk you can use
     :func:`pydicom.data.get_testdata_file`, e.g. for ``RG1_UNCI.dcm`` use
     ``pydicom.data.get_testdata_file("RG1_UNCI.dcm")``
-* Added a new pixel data handler based on :gh:`pylibjpeg <pylibjpeg>` which
-  supports all (non-retired) JPEG transfer syntaxes (:issue:`1127`)
+* Added a new pixel data handler based on `pylibjpeg
+  <https://github.com/pydicom/pylibjpeg>`_ which supports all
+  (non-retired) JPEG transfer syntaxes (:issue:`1127`)
 * Added :func:`~pydicom.pixel_data_handlers.apply_rescale`  alias
 * Added :func:`~pydicom.pixel_data_handlers.util.apply_voi` and
   :func:`~pydicom.pixel_data_handlers.util.apply_windowing`
@@ -71,8 +76,7 @@ Enhancements
   an Extended Offset Table is required (:issue:`1178`)
 
 Changes
--------
-* Dropped support for Python 3.5 (only Python 3.6+ supported)
+.......
 * Reading and adding unknown non-private tags now does not raise an exception
   per default, only when :attr:`~pydicom.config.enforce_valid_values` is set
   (:issue:`1161`)
@@ -119,7 +123,7 @@ Changes
   deprecated, the default handler will always be used.
 
 Fixes
------
+.....
 * :meth:`Dataset.copy()<pydicom.dataset.Dataset.copy>` now works as expected
   (:issue:`1146`)
 * Optimistically parse undefined length non-SQ data as if it's encapsulated
