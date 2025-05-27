@@ -721,3 +721,29 @@ def encapsulate(
                                            *bot_offsets[:-1])
 
     return bytes(output)
+
+def encapsulate_extended(frames: List[bytes]) -> Tuple[bytes, bytes, bytes]:
+    """Return encapsulated `frames` and Extended Offset Table values.
+
+    Parameters
+    ----------
+    frames : list of bytes
+        The compressed frame data to encapsulate, one frame per item.
+
+    Returns
+    -------
+    bytes, bytes, bytes
+        The encapsulated pixel data, extended offset table and
+        extended offset table lengths.
+    """
+    nr_frames = len(frames)
+    frame_lengths = [len(frame) for frame in frames]
+    frame_lengths = [l + l % 2 for l in frame_lengths]
+    frame_offsets = [0]
+    for length in frame_lengths[:-1]:
+        frame_offsets.append(frame_offsets[-1] + length + 8)
+
+    offsets = pack(f"<{nr_frames}Q", *frame_offsets)
+    lengths = pack(f"<{nr_frames}Q", *frame_lengths)
+
+    return encapsulate(frames, has_bot=False), offsets, lengths
