@@ -2157,6 +2157,15 @@ class TestFileSet_Load:
         assert fs.UID.is_valid
         assert fs.UID == dicomdir.file_meta.MediaStorageSOPInstanceUID
 
+    def test_load_dicomdir_bad_offset(self, dicomdir):
+        """Test loading a DICOMDIR with an invalid child offset."""
+        item = dicomdir.DirectoryRecordSequence[0]
+        item.OffsetOfReferencedLowerLevelDirectoryEntity = 999999
+        msg = r"Invalid child offset in directory record"
+        with pytest.warns(UserWarning, match=msg):
+            fs = FileSet(dicomdir)
+        assert isinstance(fs, FileSet)
+
 
 class TestFileSet_Modify:
     """Tests for a modified File-set."""

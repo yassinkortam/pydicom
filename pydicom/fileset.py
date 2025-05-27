@@ -1768,14 +1768,29 @@ class FileSet:
         def recurse_node(node: RecordNode) -> None:
             child_offset = getattr(node._record, _LOWER_OFFSET, None)
             if child_offset:
-                child = records[child_offset]
-                child.parent = node
-
-                next_offset = getattr(child._record, _NEXT_OFFSET, None)
-                while next_offset:
-                    child = records[next_offset]
+                child = records.get(child_offset)
+                if child:
                     child.parent = node
+
                     next_offset = getattr(child._record, _NEXT_OFFSET, None)
+                    while next_offset:
+                        nxt = records.get(next_offset)
+                        if not nxt:
+                            warnings.warn(
+                                "Invalid child offset in directory record - "
+                                f"no record found at {next_offset}",
+                                UserWarning,
+                            )
+                            break
+                        child = nxt
+                        child.parent = node
+                        next_offset = getattr(child._record, _NEXT_OFFSET, None)
+                else:
+                    warnings.warn(
+                        "Invalid child offset in directory record - "
+                        f"no record found at {child_offset}",
+                        UserWarning,
+                    )
             elif "ReferencedFileID" not in node._record:
                 # No children = leaf node, leaf nodes must reference a File ID
                 del node.parent[node]
