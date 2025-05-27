@@ -143,8 +143,16 @@ class DicomDir(FileDataset):
                     record.OffsetOfReferencedLowerLevelDirectoryEntity
                 )
                 if child_offset:
-                    child = map_offset_to_record[child_offset]
-                    record.children = get_siblings(child, map_offset_to_record)
+                    try:
+                        child = map_offset_to_record[child_offset]
+                    except KeyError:
+                        warnings.warn(
+                            "Invalid child offset in directory record - "
+                            f"no record found at {child_offset}",
+                            UserWarning,
+                        )
+                    else:
+                        record.children = get_siblings(child, map_offset_to_record)
 
         self.patient_records = [
             record for record in records
