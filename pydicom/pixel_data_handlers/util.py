@@ -342,11 +342,11 @@ def apply_voi_lut(
       <part04/sect_N.2.html#sect_N.2.1.1>`
     """
     valid_voi = False
-    if 'VOILUTSequence' in ds:
+    if ds.get('VOILUTSequence'):
         ds.VOILUTSequence = cast(List["Dataset"], ds.VOILUTSequence)
         valid_voi = None not in [
             ds.VOILUTSequence[0].get('LUTDescriptor', None),
-            ds.VOILUTSequence[0].get('LUTData', None)
+            ds.VOILUTSequence[0].get('LUTData', None),
         ]
     valid_windowing = None not in [
         ds.get('WindowCenter', None),
@@ -408,7 +408,7 @@ def apply_voi(
     * DICOM Standard, Part 4, :dcm:`Annex N.2.1.1
       <part04/sect_N.2.html#sect_N.2.1.1>`
     """
-    if "VOILUTSequence" not in ds:
+    if not ds.get("VOILUTSequence"):
         return arr
 
     if not np.issubdtype(arr.dtype, np.integer):
