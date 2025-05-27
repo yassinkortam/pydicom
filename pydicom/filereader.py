@@ -5,7 +5,8 @@
 # Need zlib and io.BytesIO for deflate-compressed file
 from io import BytesIO
 import os
-from struct import (Struct, unpack)
+from pathlib import Path
+from struct import Struct, unpack
 import warnings
 import zlib
 
@@ -829,7 +830,7 @@ def dcmread(fp, defer_size=None, stop_before_pixels=False,
     """
     # Open file if not already a file object
     caller_owns_file = True
-    if isinstance(fp, str):
+    if isinstance(fp, (str, Path)):
         # caller provided a file name; we own the file handle
         caller_owns_file = False
         try:
